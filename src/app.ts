@@ -1,10 +1,10 @@
 import express from "express";
 
-  const app = express();
+  const app = express()
 
-  app.use(express.json());
-  
-  app.use("/users", userRouter);
+  app.use(express.json())
+
+  app.use("/api/v1", )
 
 
-  export default app;
+  export default app
