@@ -7,7 +7,7 @@ export class ValidationError extends BaseError {
       message,
       errorType.BAD_REQUEST,
       errorStatus.BAD_REQUEST,
-      'ValidationError',
+      'ValidationError'
     );
   }
 }

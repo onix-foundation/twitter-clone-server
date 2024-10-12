@@ -5,7 +5,7 @@ export class ApplicationError extends BaseError {
     message: string,
     errorType: string,
     status = 500,
-    name = 'ApplicationError',
+    name = 'ApplicationError'
   ) {
     super(message, errorType, status, name);
   }

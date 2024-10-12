@@ -5,7 +5,7 @@ export class BaseError extends Error {
     message: string,
     errorType: string,
     status: number,
-    name = 'BaseError',
+    name = 'BaseError'
   ) {
     super(message);
     this.status = status;

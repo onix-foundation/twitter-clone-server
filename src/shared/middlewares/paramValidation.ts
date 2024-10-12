@@ -8,7 +8,7 @@ const uuidSchema = z.string().uuid();
 export const paramValidation = (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   const { id } = req.params;
 
