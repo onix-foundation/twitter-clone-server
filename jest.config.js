@@ -4,4 +4,6 @@ export default {
   transform: {
     "^.+.tsx?$": ["ts-jest",{}],
   },
+  preset: 'ts-jest',
+  cacheDirectory: '.tmp/jestCache'
 };

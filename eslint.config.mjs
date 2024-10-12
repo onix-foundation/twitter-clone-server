@@ -10,13 +10,11 @@ export default [
   { languageOptions: { globals: globals.node } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  // jest.configs.recommended,
   {
     rules: {
       "no-unused-vars": "error",
       "no-undef": "error",
-      //no console.log
-      "no-console": "error",
+      "no-console": "warn",
     },
     plugins: {
       jest: jest

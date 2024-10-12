@@ -1,11 +1,11 @@
 {
-  "name": "twiter-clone-server",
+  "name": "twitter-clone-server",
   "version": "1.0.0",
   "description": "twitter server clone",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "test": "test",
+    "test": "jest",
     "build": "tsc",
     "start:prod": "node ./dist/index.js",
     "start:dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
@@ -38,16 +38,26 @@
     "@commitlint/config-conventional": "^19.5.0",
     "@eslint/js": "^9.12.0",
     "@jest/globals": "^29.7.0",
+    "@types/express": "^5.0.0",
     "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.5",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.12.0",
     "eslint-plugin-jest": "^28.8.3",
     "globals": "^15.11.0",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "prettier": "3.3.3",
+    "prisma": "^5.20.0",
     "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "zod": "^3.23.8"
   },
   "config": {
     "commitizen": {
@@ -59,8 +69,5 @@
       "prettier --write",
       "eslint --max-warnings 0 ."
     ]
-  },
-  "dependencies": {
-    "cz-conventional-changelog": "^3.3.0"
   }
 }
