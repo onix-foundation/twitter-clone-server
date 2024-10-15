@@ -12,3 +12,141 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  userId                 String         @id @default(uuid()) @db.Uuid
+  username               String         @unique
+  email                  String         @unique
+  password               String
+  imageUrl               String?
+  bio                    String?
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  tweets                 Tweet[]
+  likes                  Like[]
+  comments               Comments[]
+  followers              Follower[]     @relation("followers")
+  following              Follower[]     @relation("following")
+  polls                  Poll[]
+  pollVote               PollVote[]
+  notificationsReceived  Notification[] @relation("NotificationReceived")
+  notificationsTriggered Notification[] @relation("NotificationTriggered")
+  retweets               Retweet[]
+}
+
+model Tweet {
+  tweetId      String            @id @default(uuid()) @db.Uuid
+  content      String
+  imageUrl     String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  userId       String            @db.Uuid
+  user         User              @relation(fields: [userId], references: [userId])
+  likes        Like[]
+  comments     Comments[]
+  pollId       String?           @db.Uuid
+  poll         Poll?             @relation(fields: [pollId], references: [pollId])
+  notification Notification[]
+  retweets     Retweet[]
+  hashtag      TweetsOnHashtag[]
+}
+
+model Like {
+  likeId    String   @id @default(uuid()) @db.Uuid
+  tweetId   String   @db.Uuid
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId])
+  user      User     @relation(fields: [userId], references: [userId])
+
+  @@unique([tweetId, userId])
+}
+
+model Comments {
+  commentId String   @id @default(uuid()) @db.Uuid
+  tweetId   String   @db.Uuid
+  userId    String   @db.Uuid
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [userId])
+  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId])
+}
+
+model Follower {
+  followId    String   @id @default(uuid()) @db.Uuid
+  followerId  String   @db.Uuid
+  followingId String   @db.Uuid
+  createdAt   DateTime @default(now())
+  follower    User     @relation("followers", fields: [followerId], references: [userId])
+  following   User     @relation("following", fields: [followingId], references: [userId])
+
+  @@unique([followerId, followingId])
+}
+
+model Poll {
+  pollId    String        @id @default(uuid()) @db.Uuid
+  question  String
+  createdAt DateTime      @default(now())
+  expireAt  DateTime?
+  userId    String        @db.Uuid
+  user      User          @relation(fields: [userId], references: [userId])
+  options   PollOptions[]
+  Tweet     Tweet[]
+}
+
+model PollOptions {
+  pollOptionId String     @id @default(uuid()) @db.Uuid
+  pollId       String     @db.Uuid
+  text         String
+  poll         Poll       @relation(fields: [pollId], references: [pollId])
+  votes        PollVote[]
+}
+
+model PollVote {
+  pollVoteId   String      @id @default(uuid()) @db.Uuid
+  pollOptionId String      @db.Uuid
+  userId       String      @db.Uuid
+  user         User        @relation(fields: [userId], references: [userId])
+  pollOption   PollOptions @relation(fields: [pollOptionId], references: [pollOptionId])
+
+  @@unique([pollOptionId, userId])
+}
+
+model Notification {
+  notificationId String   @id @default(uuid()) @db.Uuid
+  type           String
+  message        String
+  userId         String   @db.Uuid
+  createdAt      DateTime @default(now())
+  fromUserId     String?  @db.Uuid
+  tweetId        String?  @db.Uuid
+  read           Boolean  @default(false)
+  user           User     @relation("NotificationReceived", fields: [userId], references: [userId])
+  fromUser       User?    @relation("NotificationTriggered", fields: [fromUserId], references: [userId])
+  tweet          Tweet?   @relation(fields: [tweetId], references: [tweetId])
+}
+
+model Retweet {
+  retweetId String   @id @default(uuid()) @db.Uuid
+  tweetId   String   @db.Uuid
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId])
+  user      User     @relation(fields: [userId], references: [userId])
+}
+
+model Hashtag {
+  hashtagId String            @id @default(uuid()) @db.Uuid
+  name      String            @unique
+  createdAt DateTime          @default(now())
+  tweets    TweetsOnHashtag[]
+}
+
+model TweetsOnHashtag {
+  tweetId   String  @db.Uuid
+  hashtagId String  @db.Uuid
+  tweet     Tweet   @relation(fields: [tweetId], references: [tweetId])
+  hashtag   Hashtag @relation(fields: [hashtagId], references: [hashtagId])
+
+  @@id([tweetId, hashtagId])
+}
