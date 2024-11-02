@@ -2,6 +2,7 @@ import {
   EncryptAdapter,
   EventEmitterInterface,
 } from '../../../common/application';
+import { EventTypes } from '../../../common/domain/events/eventEmmiter';
 
 import { User, UserInput, UserRepository } from '../domain';
 
@@ -9,7 +10,7 @@ export const createUser = async (
   userInput: UserInput,
   userRepository: UserRepository,
   encrypt: EncryptAdapter,
-  eventEmitter?: EventEmitterInterface //TODO: Define the type of eventEmitter
+  eventEmitter?: EventEmitterInterface
 ): Promise<User> => {
   const { password } = userInput;
   const hashedPassword = await encrypt.hash(password);
@@ -19,9 +20,8 @@ export const createUser = async (
     password: hashedPassword,
   });
 
-  // Emit an event after account creation
   if (eventEmitter) {
-    eventEmitter.emit('accountCreated', {
+    eventEmitter.emit(EventTypes.ACCOUNT_CREATED, {
       email: newUser.email,
       username: newUser.username,
     });

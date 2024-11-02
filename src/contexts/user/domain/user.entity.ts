@@ -8,6 +8,7 @@ export type User = {
   userId: string;
   username: string;
   email: string;
+  emailVerified: boolean;
   password: string;
   imageUrl?: string | null;
   bio?: string | null;
@@ -36,8 +37,9 @@ export type Follower = {
 
 export interface UserInput {
   email: string;
+  emailVerified?: boolean;
   password: string;
-  username: string;
+  username?: string;
   imageUrl?: string;
   bio?: string;
 }

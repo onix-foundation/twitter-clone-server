@@ -1,15 +1,5 @@
-export interface EventMap {
-  accountCreated: { email: string; username: string };
-  passwordReset: { email: string };
-  tweetCreated: { tweetId: string };
-  tweetLiked: { tweetId: string; userId: string };
-  tweetUnliked: { tweetId: string; userId: string };
-  tweetRetweeted: { tweetId: string; userId: string };
-  tweetUnretweeted: { tweetId: string; userId: string };
-  commentCreated: { commentId: string };
-  commentLiked: { commentId: string; userId: string };
-  commentUnliked: { commentId: string; userId: string };
-}
+import { EventMap } from '../../domain/events/eventEmmiter';
+
 export type EventHandler<T = unknown> = (payload: T) => void;
 
 export interface EventEmitterInterface {
