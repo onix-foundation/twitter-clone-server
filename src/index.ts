@@ -1,9 +1,10 @@
-import app from './app';
-import http from 'http';
+import http from 'node:http';
+import { app } from './app';
+import { CONFIG } from './configuration/config';
 
 const server = http.createServer(app);
-console.log(`port ${process.env.PORT}`);
+console.log(`port ${CONFIG.PORT}`);
 
-server.listen(process.env.PORT, () => {
-  console.log(`Server is running on http://localhost:${process.env.PORT}`);
+server.listen(CONFIG.PORT, () => {
+  console.log(`Server is running on http://localhost:${CONFIG.PORT}`);
 });

@@ -11,10 +11,8 @@ import { CONFIG } from '../../../configuration/config';
 export const setupSecurity = (app: Express) => {
   const redis = createRedisClient();
 
-  // Basic security headers
   app.use(helmet());
 
-  // CORS
   app.use(
     cors({
       origin: CONFIG.CORS_ORIGIN,
@@ -24,7 +22,6 @@ export const setupSecurity = (app: Express) => {
     })
   );
 
-  // Rate limiting
   app.use(
     rateLimit({
       windowMs: CONFIG.RATE_LIMIT_WINDOW,
@@ -33,7 +30,6 @@ export const setupSecurity = (app: Express) => {
     })
   );
 
-  // Session management with Redis
   app.use(
     session({
       store: new RedisStore({ client: redis }),
