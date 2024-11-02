@@ -1,6 +1,6 @@
 import swaggerAutogen from 'swagger-autogen';
-import { CONFIG } from '../../config/config';
-
+// import { CONFIG } from '../../config/config';
+import { CONFIG } from '../../src/configuration/config';
 const doc = {
   info: {
     title: 'Twitter Clone API',
