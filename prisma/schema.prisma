@@ -41,11 +41,11 @@ model Tweet {
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
   userId       String            @db.Uuid
-  user         User              @relation(fields: [userId], references: [userId])
+  user         User              @relation(fields: [userId], references: [userId], onDelete: Cascade)
   likes        Like[]
   comments     Comments[]
   pollId       String?           @db.Uuid
-  poll         Poll?             @relation(fields: [pollId], references: [pollId])
+  poll         Poll?             @relation(fields: [pollId], references: [pollId], onDelete: SetNull)
   notification Notification[]
   retweets     Retweet[]
   hashtag      TweetsOnHashtag[]
@@ -56,8 +56,8 @@ model Like {
   tweetId   String   @db.Uuid
   userId    String   @db.Uuid
   createdAt DateTime @default(now())
-  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId])
-  user      User     @relation(fields: [userId], references: [userId])
+  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@unique([tweetId, userId])
 }
@@ -68,8 +68,8 @@ model Comments {
   userId    String   @db.Uuid
   content   String
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [userId])
-  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId])
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId], onDelete: Cascade)
 }
 
 model Follower {
@@ -77,8 +77,8 @@ model Follower {
   followerId  String   @db.Uuid
   followingId String   @db.Uuid
   createdAt   DateTime @default(now())
-  follower    User     @relation("followers", fields: [followerId], references: [userId])
-  following   User     @relation("following", fields: [followingId], references: [userId])
+  follower    User     @relation("followers", fields: [followerId], references: [userId], onDelete: Cascade)
+  following   User     @relation("following", fields: [followingId], references: [userId], onDelete: Cascade)
 
   @@unique([followerId, followingId])
 }
@@ -89,7 +89,7 @@ model Poll {
   createdAt DateTime      @default(now())
   expireAt  DateTime?
   userId    String        @db.Uuid
-  user      User          @relation(fields: [userId], references: [userId])
+  user      User          @relation(fields: [userId], references: [userId], onDelete: Cascade)
   options   PollOptions[]
   Tweet     Tweet[]
 }
@@ -98,7 +98,7 @@ model PollOptions {
   pollOptionId String     @id @default(uuid()) @db.Uuid
   pollId       String     @db.Uuid
   text         String
-  poll         Poll       @relation(fields: [pollId], references: [pollId])
+  poll         Poll       @relation(fields: [pollId], references: [pollId], onDelete: Cascade)
   votes        PollVote[]
 }
 
@@ -106,8 +106,8 @@ model PollVote {
   pollVoteId   String      @id @default(uuid()) @db.Uuid
   pollOptionId String      @db.Uuid
   userId       String      @db.Uuid
-  user         User        @relation(fields: [userId], references: [userId])
-  pollOption   PollOptions @relation(fields: [pollOptionId], references: [pollOptionId])
+  user         User        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  pollOption   PollOptions @relation(fields: [pollOptionId], references: [pollOptionId], onDelete: Cascade)
 
   @@unique([pollOptionId, userId])
 }
@@ -131,8 +131,8 @@ model Retweet {
   tweetId   String   @db.Uuid
   userId    String   @db.Uuid
   createdAt DateTime @default(now())
-  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId])
-  user      User     @relation(fields: [userId], references: [userId])
+  tweet     Tweet    @relation(fields: [tweetId], references: [tweetId], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
 model Hashtag {
@@ -145,8 +145,8 @@ model Hashtag {
 model TweetsOnHashtag {
   tweetId   String  @db.Uuid
   hashtagId String  @db.Uuid
-  tweet     Tweet   @relation(fields: [tweetId], references: [tweetId])
-  hashtag   Hashtag @relation(fields: [hashtagId], references: [hashtagId])
+  tweet     Tweet   @relation(fields: [tweetId], references: [tweetId], onDelete: Cascade)
+  hashtag   Hashtag @relation(fields: [hashtagId], references: [hashtagId], onDelete: Cascade)
 
   @@id([tweetId, hashtagId])
 }
