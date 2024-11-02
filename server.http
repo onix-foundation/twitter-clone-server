@@ -1,0 +1,10 @@
+### Save tweet
+
+POST http://localhost:3000/create-tweet
+Content-Type: application/json
+
+{
+    content: "This is the first tweet",
+    imageUrl: "https://i.pinimg.com/736x/d8/a0/4a/d8a04ab868395674b7694f49d2336adc.jpg",
+    userId: "550e8400-e29b-41d4-a716-446655440000",
+}
