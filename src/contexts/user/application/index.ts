@@ -1,2 +1,4 @@
 export * from './createUser';
-export * from './loginUser';
+export * from './getUserByEmail';
+export * from './getUserById';
+export * from './updateUser';

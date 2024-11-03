@@ -1,5 +1,5 @@
 import Redis from 'ioredis';
-import { CONFIG } from '../../config/config';
+import { CONFIG } from '../../../configuration/config';
 
 export const createRedisClient = () => {
   const redis = new Redis({
