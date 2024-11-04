@@ -1,9 +1,13 @@
 import { prisma } from '../../../database';
-import { User, UserInput } from '../domain';
+import { User, UserInput, UserRepository } from '../domain';
 
 export const createUser = async (user: UserInput): Promise<User> => {
   return prisma.user.create({
-    data: user,
+    data: {
+      email: user.email,
+      username: user.username!,
+      password: user.password,
+    },
   });
 };
 
@@ -68,4 +72,15 @@ export const getFollowing = async (userId: string): Promise<User[]> => {
     include: { following: true },
   });
   return following.map((f) => f.following);
+};
+
+export const userPrismaRepository: UserRepository = {
+  createUser,
+  getUserByEmail,
+  getUserById,
+  updateUser,
+  followUser,
+  unfollowUser,
+  getFollowers,
+  getFollowing,
 };
